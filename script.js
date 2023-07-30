@@ -10,9 +10,11 @@ function inserir() {
     var Tempo = prompt("Tempo para a tarefa ser executada: ")
     var Prioridade = prompt("Informe a prioridade: ")
     ArrayPrioridade.push(Prioridade)
+    
     ArrayTempo.push(Tempo)
     var inicio = new Date()
     TimeInicial.push(inicio)
+    
     //Impreme arrays
     for(x = 0; x <= ArrayPrioridade.length; x++){     
        console.log(ArrayTempo[x] + " " + ArrayPrioridade[x])
@@ -58,29 +60,35 @@ function executar(max){
             
             const TempoExecucao = setTimeout(finalizar, processo*1000);
              console.log(processo*1000)
+             
+     
             //Acionada quando o processo é completo
             function finalizar(){
-            
+            console.log("Tamanho: " + ArrayPrioridade.length)
             //Localiza a prioridade
                 var indice1 = ArrayPrioridade.indexOf(Maior);
                 var indice2 = ArrayTempo.indexOf(Time);
                 
                  //Determina o horário em que o processo foi finalizada 
                 var fim = new Date()
-                //calcula os milissegundos que se passaram para execução
-                resultado = fim.getMilliseconds(); - Inicio.getMilliseconds();
                 
                 //Adiciona ao Array que Armazena o tempo de espera
-                TimeResultado.push(resultado)                
                 var prioridades = ArrayPrioridade.length
-                
                 // Tw = Tempo de espera e Tt = Tempo total                
-                for(i = 0; i < ArrayPrioridade.length; i++){
+                for(x = 0; x < ArrayPrioridade.length; x++){
+                var Final = fim.getMilliseconds();
+                var Init = Inicio.getMilliseconds();
+                resultado = Final - Init
+                TimeResultado.push(resultado)
                     var TempoEspera = 0
+                    
                     var TempodeExecucao = 0
-                    TempoEspera = TempoEspera + TimeResultado[i]
-                    var Tw = TempoEspera/prioridades                                     
-                    TempodeExecucao = TempodeExecucao + ArrayTempo[i]
+                    TempoEspera = TempoEspera + resultado
+                    console.log("TE: " + TempoEspera)
+                    console.log("TR: " + resultado)
+                    var Tw = TempoEspera/prioridades   
+                                                      
+                    TempodeExecucao = TempodeExecucao + ArrayTempo[x]
                     var Tt = TempodeExecucao/prioridades
                     document.getElementById("result").innerHTML = "Tempo de espera (milissegundos): " + Tw + "  | Tempo de Execução (segundos): " + Tt
                       executar()
@@ -92,10 +100,11 @@ function executar(max){
                 console.log("finalizado")               
                                  
                  for(x = 0; x <= ArrayPrioridade.length; x++){     
-                   console.log(ArrayTempo[x] + " " + ArrayPrioridade[x])
+                   console.log(ArrayTempo[x] + " " + ArrayPrioridade[x] +" " + TimeResultado[x])
                 }
             
             }
         }
     }
 }
+
